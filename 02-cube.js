@@ -25,7 +25,7 @@ Determine which games would have been possible if the bag had been loaded with o
 `;
 
 const fs = require('fs');
-const input = fs.readFileSync('02-input.txt', 'utf8');
+const data = fs.readFileSync('02-input.txt', 'utf8');
 
 const sample =
 `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -77,10 +77,44 @@ const cube = input => {
             }
         }
     })
-    console.log(result);
+
     return result;
 }
 
 
-cube(sample);
-cube(input);
+const cube2 = input => {
+    let result = 0;
+    const regex = {
+        game: /(?<=Game\s)\d+/,
+        red: /\d+(?= red)/g,
+        green: /\d+(?= green)/g,
+        blue: /\d+(?= blue)/g
+    }
+    const lines = input.split(/\n/);
+    lines.map(line => {
+        if (line) {
+            let reds = line.match(regex.red);
+            let greens = line.match(regex.green);
+            let blues = line.match(regex.blue);
+            let maxRed = reds.reduce((accumulator, currentValue) => {
+                return (accumulator > parseInt(currentValue) ? accumulator : currentValue);
+            })
+            let maxGreen = greens.reduce((accumulator, currentValue) => {
+                return (accumulator > parseInt(currentValue) ? accumulator : currentValue);
+            })
+            let maxBlue = blues.reduce((accumulator, currentValue) => {
+                return (accumulator > parseInt(currentValue) ? accumulator : currentValue);
+            })
+            let product = maxRed * maxGreen * maxBlue;
+            result += product;
+        }
+    });
+
+    return result;
+}
+
+
+console.log("Part 1 Sample: ", cube(sample));
+console.log("Part 1 Data: ", cube(data));
+console.log("Part 2 Sample: ", cube2(sample));
+console.log("Part 2 Data: ", cube2(data));
