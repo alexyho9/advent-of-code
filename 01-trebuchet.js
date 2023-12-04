@@ -80,7 +80,7 @@ const trebuchet2 = input => {
                 num_string += first;
             }
             // Find last item per line
-            let last = num_array[num_array.length - 1];
+            let last = num_array[num_array.length-1];
             // If last item is text, translate to digit char
             if (last in keys) {
                 num_string += keys[last];
