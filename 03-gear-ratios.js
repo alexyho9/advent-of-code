@@ -15,56 +15,70 @@ const sample =
 
 
 const gearRatios = input => {
+    // Initialize result
+    let result = 0;
+
     // split lines from text import
     const lines = input.split(/\n/);
 
     // Line Level iteration
-    for (let i = 2; i < 3; i++) {
+    for (let i = 10; i < 13; i++) {
         let line = lines[i];
-        console.log(line);
+        console.log("line:", i+1, line);
 
         // Get all numbers in a line
-        let regexNumbers = /\d+/g;
-        listNumbers = line.match(regexNumbers);
-        console.log(listNumbers);
+        let list_numbers = line.match(/\d+/g);
+        // console.log(list_numbers);
 
-        // Create a hash map to store numbers and their positions
-        let key = {};
-
-        // Number Level
-        for (let num of listNumbers) {
-            let num_index = line.indexOf(num)
-            key[num] = [];
-            // Add initial index to array in hash map
-            key[num].push(num_index);
-
-            // Character Level
-            if (num.length > 1) {
-                // If the number has multiple digits, push additional indexes to hashmap
-                for (let j = 1; j < num.length; j++) {
-                    key[num].push(num_index + j);
+        // Create a key of numbers and their positions
+        let nums_key = {};
+        if (list_numbers) {
+            for (let num of list_numbers) {
+                let num_index = line.indexOf(num)
+                nums_key[num] = [];
+                // Add index - 1 to array in hash map if index is greater than zero
+                if (num_index > 0) {
+                    nums_key[num].push(num_index - 1);
+                }
+                // Character Level: push additional indexes to hashmap including after tail
+                for (let j = 0; j <= num.length; j++) {
+                    nums_key[num].push(num_index + j);
                 }
             }
         }
-        console.log(key);
-
         // Get indexes of symbols
-        let symbols_indexes = new Array;
+        let symbols = new Array;
         for (let k = 0; k < line.length; k++) {
             if (line[k].match(/[^\d.]/)) {
-                symbols_indexes.push(k);
+                symbols.push(k);
             }
             // get symbol indexes for previous and next lines
             if (lines[i-1] && lines[i-1][k].match(/[^\d.]/)) {
-                symbols_indexes.push(k);
+                symbols.push(k);
             }
             if (lines[i+1] && lines[i+1][k].match(/[^\d.]/)) {
-                symbols_indexes.push(k);
+                symbols.push(k);
             }
         }
-        console.log(symbols_indexes);
+        console.log(symbols);
+        // Iterate through nums keys and compare to symbol positions
+        for (let num in nums_key) {
+            let included = false;
+            let locations = nums_key[num];
+            for (let location of locations) {
+                if (symbols.includes(location)) {
+                    included = true;
+                    console.log("Number:", num, "locations:", locations, "match:", location);
+                }
+            }
+            if (included) {
+                result += parseInt(num);
+            }
+        }
     }
+    console.log(result);
+    return result;
 }
 
-
-gearRatios(data);
+// console.log(gearRatios(sample));
+console.log(gearRatios(data));
