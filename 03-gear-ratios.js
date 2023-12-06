@@ -1,5 +1,5 @@
 const fs = require('fs');
-const data = fs.readFileSync('03-input.txt', 'utf8');
+const data = fs.readFileSync('data/03-input.txt', 'utf8');
 
 const sample =
 `467..114..

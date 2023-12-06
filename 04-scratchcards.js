@@ -1,5 +1,5 @@
 const fs = require('fs');
-const data = fs.readFileSync('04-input.txt', 'utf8');
+const data = fs.readFileSync('data/04-input.txt', 'utf8');
 
 const example =
 `Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53

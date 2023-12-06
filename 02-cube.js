@@ -25,7 +25,7 @@ Determine which games would have been possible if the bag had been loaded with o
 `;
 
 const fs = require('fs');
-const data = fs.readFileSync('02-input.txt', 'utf8');
+const data = fs.readFileSync('data/02-input.txt', 'utf8');
 
 const sample =
 `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green

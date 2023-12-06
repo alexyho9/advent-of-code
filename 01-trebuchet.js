@@ -13,7 +13,7 @@ all of the calibration values?
 */
 
 const fs = require('fs');
-const data = fs.readFileSync('01-input.txt', 'utf8');
+const data = fs.readFileSync('data/01-input.txt', 'utf8');
 
 let sample = `
 1abc2
