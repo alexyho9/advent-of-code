@@ -29,7 +29,8 @@ abcone2threexyz
 xtwone3four
 4nineeightseven2
 zoneight234
-7pqrstsixteen`;
+7pqrstsixteen
+eighthree`;
 
 
 const trebuchet = input => {
@@ -59,45 +60,54 @@ const trebuchet2 = input => {
         eight: '8',
         nine: '9'
     };
-    // Initialize total
+
     let total = 0;
-    // Iterate through lines
+
     let lines = input.split(/\r?\n/)
     for (let i = 0; i < lines.length; i++) {
-        // add text and digit matches to an array for each line
-        let num_array = lines[i].match(/one|two|three|four|five|six|seven|eight|nine|\d/g);
-        // console.log(lines[i]);
-        if (num_array) {
-            let num_string = "";
-            // Find first item per line
-            let first = num_array[0]
-            // If first item is text, translate to digit char
-            if (first in keys) {
-                num_string += keys[first];
-            }
-            // If first item is digit, use that digit as a char
-            else if (first.match(/\d/)) {
-                num_string += first;
-            }
-            // Find last item per line
-            let last = num_array[num_array.length-1];
-            // If last item is text, translate to digit char
-            if (last in keys) {
-                num_string += keys[last];
-            }
-            // If last item is digit, ust that digit is as a char
-            else if (last.match(/\d/)) {
-                num_string += last;
-            }
-            // console.log(num_string);
-            total += parseInt(num_string);
+        let line = lines[i];
+        let first, last;
+        // console.log(line);
+        // Find first number. If it is a word, convert to digit character.
+        first = line.match(/one|two|three|four|five|six|seven|eight|nine|\d/)[0];
+        if (first in keys) {
+            first = keys[first];
         }
+
+        // Find last number. Iterate backwards from end of string
+        // and check if character is a digit.
+        // Else check if string of length 3-5 matches a key
+        for (let j = line.length - 1; j >= 0; j--) {
+            if (/\d/.test(line[j])) {
+                last = line[j];
+                break;
+            }
+            else if (line.slice(j, j + 3) in keys) {
+                last = line.slice(j, j + 3);
+                last = keys[last];
+                break;
+            }
+            else if (line.slice(j, j + 4) in keys) {
+                last = line.slice(j, j + 4);
+                last = keys[last];
+                break;
+            }
+            else if (line.slice(j, j + 5) in keys) {
+                last = line.slice(j, j + 5);
+                last = keys[last];
+                break;
+            }
+        }
+        // Combine first and last strings and parse to number. Then add to running total.
+        // console.log(first + last)
+        total += parseInt(first + last);
+
     }
     return total;
 }
 
 
-console.log(trebuchet(sample));
-console.log(trebuchet(data));
+// console.log(trebuchet(sample));
+// console.log(trebuchet(data));
 console.log(trebuchet2(sample2));
 console.log(trebuchet2(data));
